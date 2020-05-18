@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexo\LaravelPayU;
+namespace Samanathor\LaravelPayU;
 
 use Exception;
 
@@ -99,19 +99,19 @@ class LaravelPayU
     protected static function guessCurrencySymbol($currency)
     {
         switch (strtolower($currency)) {
-        case 'usd':
-        case 'clp':
-        case 'cop':
-        case 'mxn':
-            return '$';
-        case 'ars':
-            return '$a';
-        case 'pen':
-            return 'S/';
-        case 'brl':
-            return 'R$';
-        default:
-            throw new Exception('Unable to guess symbol for currency. Please explicitly specify it.');
+            case 'usd':
+            case 'clp':
+            case 'cop':
+            case 'mxn':
+                return '$';
+            case 'ars':
+                return '$a';
+            case 'pen':
+                return 'S/';
+            case 'brl':
+                return 'R$';
+            default:
+                throw new Exception('Unable to guess symbol for currency. Please explicitly specify it.');
         }
     }
 
@@ -162,10 +162,10 @@ class LaravelPayU
         $amount = number_format($amount / 100, 2);
 
         if (starts_with($amount, '-')) {
-            return '-'.static::usesCurrencySymbol().ltrim($amount, '-');
+            return '-' . static::usesCurrencySymbol() . ltrim($amount, '-');
         }
 
-        return static::usesCurrencySymbol().$amount;
+        return static::usesCurrencySymbol() . $amount;
     }
 
     /**

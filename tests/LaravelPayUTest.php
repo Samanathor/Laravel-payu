@@ -1,6 +1,6 @@
 <?php
 
-use Alexo\LaravelPayU\LaravelPayU;
+use Samanathor\LaravelPayU\LaravelPayU;
 use Carbon\Carbon;
 use Fakes\Order;
 use Fakes\User;
@@ -12,8 +12,8 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        if (file_exists(__DIR__.'/../.env')) {
-            $dotenv = new Dotenv\Dotenv(__DIR__.'/../');
+        if (file_exists(__DIR__ . '/../.env')) {
+            $dotenv = new Dotenv\Dotenv(__DIR__ . '/../');
             $dotenv->load();
         }
 
@@ -27,13 +27,13 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
         $now = Carbon::now();
         $dt = $now->addYears(4);
 
-        $session = md5(session_id().microtime());
+        $session = md5(session_id() . microtime());
         $data = [
             \PayUParameters::DESCRIPTION => 'Payment cc test',
             \PayUParameters::IP_ADDRESS => '127.0.0.1',
             \PayUParameters::CURRENCY => 'COP',
             \PayUParameters::CREDIT_CARD_NUMBER => '378282246310005',
-            \PayUParameters::CREDIT_CARD_EXPIRATION_DATE => $dt->year.'/02',
+            \PayUParameters::CREDIT_CARD_EXPIRATION_DATE => $dt->year . '/02',
             \PayUParameters::CREDIT_CARD_SECURITY_CODE => '1234',
             \PayUParameters::INSTALLMENTS_NUMBER => 1,
             \PayUParameters::DEVICE_SESSION_ID => $session,
@@ -45,7 +45,7 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
             \PayUParameters::VALUE => $order->value
         ];
 
-        $order->payWith($data, function($response, $order) {
+        $order->payWith($data, function ($response, $order) {
             if ($response->code == 'SUCCESS') {
                 // ... check transactionResponse object and do what you need
                 $order->update([
@@ -57,7 +57,7 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
             } else {
                 //... something went wrong
             }
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
 
@@ -88,14 +88,14 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
             \PayUParameters::VALUE => $order->value
         ];
 
-        $order->payWith($data, function($response) {
+        $order->payWith($data, function ($response) {
             if ($response->code == 'SUCCESS') {
                 // ... check transactionResponse object and do what you need
                 $this->assertEquals($response->transactionResponse->state, 'PENDING');
             } else {
                 //... something went wrong
             }
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
     }
@@ -104,10 +104,10 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
     {
         // Get PSE banks first, typically sent with the form
         // that is filled by the payer
-        LaravelPayU::getPSEBanks(function($banks) {
+        LaravelPayU::getPSEBanks(function ($banks) {
             $bankCode = 0;
 
-            foreach($banks as $bank) {
+            foreach ($banks as $bank) {
                 if ($bank->description == 'Banco Union Colombiano') {
                     $bankCode = $bank->pseCode;
                 }
@@ -120,7 +120,7 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
             // account testing enviroment equals true
             LaravelPayU::setAccountOnTesting(false);
 
-            $session = md5(session_id().microtime());
+            $session = md5(session_id() . microtime());
             $data = [
                 \PayUParameters::DESCRIPTION => 'Payment pse test',
                 \PayUParameters::IP_ADDRESS => '127.0.0.1',
@@ -131,7 +131,7 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
                 \PayUParameters::PAYER_NAME => $user->name,
                 \PayUParameters::PAYER_EMAIL => $user->email,
                 \PayUParameters::PAYER_DNI => $user->identification,
-                \PayUParameters::PAYER_CONTACT_PHONE=> '7563126',
+                \PayUParameters::PAYER_CONTACT_PHONE => '7563126',
                 \PayUParameters::PAYER_DOCUMENT_TYPE => 'CC',
                 \PayUParameters::PAYER_PERSON_TYPE => 'N',
                 \PayUParameters::PSE_FINANCIAL_INSTITUTION_CODE => $bankCode,
@@ -141,18 +141,17 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
                 \PayUParameters::VALUE => $order->value
             ];
 
-            $order->payWith($data, function($response) {
+            $order->payWith($data, function ($response) {
                 if ($response->code == 'SUCCESS') {
                     // ... check transactionResponse object and do what you need
                     $this->assertEquals($response->transactionResponse->state, 'PENDING');
                 } else {
                     //... something went wrong
                 }
-            }, function($error) {
+            }, function ($error) {
                 // ... handle PayUException, InvalidArgument or another error
             });
-
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
     }
@@ -162,10 +161,10 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
      */
     public function testSearchOrderById($order)
     {
-        $order->searchById(function($response) {
+        $order->searchById(function ($response) {
             // ... check response and use the order data to update or something
             $this->assertEquals($response->status, 'CAPTURED');
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
     }
@@ -175,10 +174,10 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
      */
     public function testSearchOrderByReference($order)
     {
-        $order->searchByReference(function($response) {
+        $order->searchByReference(function ($response) {
             // ... check response array list and use the order data to update or something
             $this->assertEquals($response[0]->status, 'CAPTURED');
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
     }
@@ -188,10 +187,10 @@ class LaravelPayUTest extends PHPUnit_Framework_TestCase
      */
     public function testSearchTransactionResponse($order)
     {
-        $order->searchByTransaction(function($response) {
+        $order->searchByTransaction(function ($response) {
             // ... check response array list and use the order data to update or something
             $this->assertEquals($response->state, 'APPROVED');
-        }, function($error) {
+        }, function ($error) {
             // ... handle PayUException, InvalidArgument or another error
         });
     }

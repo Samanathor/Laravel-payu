@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Alexo\LaravelPayU\Payable;
+use SAmanathor\LaravelPayU\Payable;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model

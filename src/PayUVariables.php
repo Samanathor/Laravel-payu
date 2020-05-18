@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexo\LaravelPayU;
+namespace Samanathor\LaravelPayU;
 
 class PayUVariables
 {

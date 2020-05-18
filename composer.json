@@ -1,5 +1,5 @@
 {
-  "name": "alexo/laravel-payu",
+  "name": "samanathor/laravel-payu",
   "description": "Una interfaz fluida para Laravel usando el SDK oficial de PayU latam.",
   "keywords": [
     "laravel",
@@ -9,8 +9,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Alejandro Gutiérrez",
-      "email": "alejandrogutierrezacosta@gmail.com"
+      "name": "Sebastian Agreda",
+      "email": "soy@sebastianagreda.com"
     }
   ],
   "require": {
@@ -26,7 +26,7 @@
       "sdk/lib"
     ],
     "psr-4": {
-      "Alexo\\LaravelPayU\\": "src/"
+      "Samanathor\\LaravelPayU\\": "src/"
     }
   }
 }

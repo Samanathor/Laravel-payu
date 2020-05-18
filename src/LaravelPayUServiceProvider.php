@@ -1,6 +1,6 @@
 <?php
 
-namespace Alexo\LaravelPayU;
+namespace Samanathor\LaravelPayU;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -20,7 +20,8 @@ class LaravelPayUServiceProvider extends ServiceProvider
         ]);
 
         $this->mergeConfigFrom(
-            __DIR__ . '/config/payu.php', 'payu'
+            __DIR__ . '/config/payu.php',
+            'payu'
         );
     }
 
