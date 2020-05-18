@@ -2,7 +2,7 @@
 
 namespace App;
 
-use SAmanathor\LaravelPayU\Payable;
+use Samanathor\LaravelPayU\Payable;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
