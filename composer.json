@@ -1,7 +1,11 @@
 {
   "name": "alexo/laravel-payu",
   "description": "Una interfaz fluida para Laravel usando el SDK oficial de PayU latam.",
-  "keywords": ["laravel", "payu", "pagos"],
+  "keywords": [
+    "laravel",
+    "payu",
+    "pagos"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -11,7 +15,7 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "nesbot/carbon": "~1.0"
+    "nesbot/carbon": "~2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.0",
